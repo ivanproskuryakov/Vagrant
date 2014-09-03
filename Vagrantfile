@@ -12,8 +12,8 @@ Vagrant.configure("2") do |config|
   # using a specific IP.
   config.vm.network :private_network, ip: "10.0.0.100" 
       
-  # Set synced dir for vagrant enviroment      
-  config.vm.synced_folder "./", "/var/www/"
+  # Set synced dir for vagrant enviroment     
+  config.vm.synced_folder "www", "/vagrant/", id: "vagrant-root" ,  type: "nfs" 
      
   # Enable provisioning with Puppet stand alone.  Puppet manifests
   # are contained in a directory path relative to this Vagrantfile.
@@ -21,7 +21,7 @@ Vagrant.configure("2") do |config|
   # the file saucy64.pp in the manifests_path directory.                                  
   config.vm.provision "puppet" do |puppet|
     puppet.manifests_path = "manifests"
-    puppet.manifest_file = "default.pp"
+    puppet.manifest_file = "init.pp"
   end
   
   config.vm.provision :shell do |shell|

@@ -1,10 +1,10 @@
+$host_name = "localhost.vag"
 $db_name = "localhost"
 $root_password = "vagrant"
 
 group { 'puppet': ensure => present }
 Exec { path => [ '/bin/', '/sbin/', '/usr/bin/', '/usr/sbin/' ] }
 File { owner => 0, group => 0, mode => 0644 }
-
 
 #APT ------------------------------------------------------------ 
 class {'apt':
@@ -35,11 +35,28 @@ package { [
 #APACHE --------------------------------------------------------- 
 class { 'apache': }
 
+#apache{
+#   default_vhost => false,
+#}
+
 apache::dotconf { 'custom':
   content => 'EnableSendfile Off',
 }
 
 apache::module { 'rewrite': }
+
+apache::vhost { "${host_name}":
+  server_name   => "${host_name}",
+  serveraliases => [
+    "www.${host_name}"
+  ],
+  docroot       => '/vagrant/${host_name}/public/',
+  port          => '80',
+  env_variables => [
+    'VAGRANT VAGRANT'
+  ],
+  priority          => '10',
+}
 
 #PHP ------------------------------------------------------------ 
 class { 'php':
@@ -96,13 +113,15 @@ php::ini { 'php_ini_configuration':
   require => Class['php']
 }
 
+#XDEBUG --------------------------------------------------------- 
+
 
 #MYSQL ---------------------------------------------------------- 
 class { 'mysql::server':
   override_options => { 'root_password' => '{root_password}', },
 }
 
-database{ "${db_name}":
+mysql_database{ "${db_name}":
   ensure  => present,
   charset => 'utf8',
   require => Class['mysql::server'],
