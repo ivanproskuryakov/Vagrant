@@ -13,7 +13,7 @@ Download sources, cd to directory with "Vagrantfile" and type "vagrant up"
 $ cd vagrant
 $ vagrant up
 ```  
-add follwing line to /etc/hosts file to make localhost.vag work on your host 
+To make localhost.vag accessible add following to /etc/hosts  
 ```
 10.0.0.100      localhost.vag
 ```
