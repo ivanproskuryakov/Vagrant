@@ -50,7 +50,7 @@ apache::vhost { "${host_name}":
   serveraliases => [
     "www.${host_name}"
   ],
-  docroot       => '/vagrant/${host_name}/public/',
+  docroot       => "/vagrant/${host_name}/public/",
   port          => '80',
   env_variables => [
     'VAGRANT VAGRANT'
@@ -113,16 +113,17 @@ php::ini { 'php_ini_configuration':
   require => Class['php']
 }
 
-#XDEBUG --------------------------------------------------------- 
-
-
 #MYSQL ---------------------------------------------------------- 
 class { 'mysql::server':
   override_options => { 'root_password' => '{root_password}', },
 }
 
 mysql_database{ "${db_name}":
-  ensure  => present,
+  ensure  => 'present',
   charset => 'utf8',
   require => Class['mysql::server'],
 }
+
+
+#XDEBUG --------------------------------------------------------- 
+# todo.... 
