@@ -3,9 +3,14 @@ VAGRANTFILE_API_VERSION = "2"
 Vagrant.configure("2") do |config|        
 
   # Every Vagrant virtual environment requires a box to build off of.
-  config.vm.box = "hashicorp/precise32"    
-  
+  config.vm.box = "hashicorp/precise32" #config.vm.box = "ubuntu/trusty64"    
+  config.vm.hostname = "vagrant-php"
   config.vm.provision :shell, path: "bootstrap.sh"
+  
+  # Forward Agent
+  #
+  # Enable agent forwarding on vagrant ssh commands. This allows you to use identities
+  # established on the host machine inside the guest. See the manual for ssh-add
   config.ssh.forward_agent = true
   
   # Create a private network, which allows host-only access to the machine
