@@ -1,5 +1,7 @@
-$host_name = "localhost.vag"
-$db_name = "localhost"
+$host_localhost = "localhost.vag"
+$db_localhost = "localhost"
+$host_magento = "magento.vag"
+$db_magento = "magento"
 $root_password = "vagrant"
 
 group { 'puppet': ensure => present }
@@ -47,12 +49,25 @@ apache::dotconf { 'custom':
 
 apache::module { 'rewrite': }
 
-apache::vhost { "${host_name}":
-  server_name   => "${host_name}",
+apache::vhost { "${host_localhost}":
+  server_name   => "${host_localhost}",
   serveraliases => [
-    "www.${host_name}"
+    "www.${host_localhost}"
   ],
-  docroot       => "/vagrant/${host_name}/public/",
+  docroot       => "/vagrant/${host_localhost}/public/",
+  port          => '80',
+  env_variables => [
+    'VAGRANT VAGRANT'
+  ],
+  priority          => '10',
+}
+
+apache::vhost { "${host_magento}":
+  server_name   => "${host_magento}",
+  serveraliases => [
+    "www.${host_magento}"
+  ],
+  docroot       => "/vagrant/${host_magento}/public/",
   port          => '80',
   env_variables => [
     'VAGRANT VAGRANT'
@@ -121,12 +136,17 @@ class { 'mysql::server':
   override_options => { 'root_password' => '{root_password}', },
 }
 
-mysql_database{ "${db_name}":
+mysql_database{ "${db_localhost}":
   ensure  => 'present',
   charset => 'utf8',
   require => Class['mysql::server'],
 }
 
+mysql_database{ "${db_magento}":
+  ensure  => 'present',
+  charset => 'utf8',
+  require => Class['mysql::server'],
+}
 
 #XDEBUG --------------------------------------------------------- 
 # todo.... 

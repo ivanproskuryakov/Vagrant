@@ -1,3 +1,10 @@
 .vagrant
 .DS_Store
 .idea
+
+#localhost
+/www/localhost.vag/data/
+
+#magento
+/www/magento.vag/public/*
+/www/magento.vag/data/
