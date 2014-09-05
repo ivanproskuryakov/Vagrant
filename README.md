@@ -1,9 +1,8 @@
 Vagrant environment for PHP
 -----------------------------------            
 Vagrant box variables
-- IP: "10.0.0.100"
-- MySQL root password: "vagrant"
-- Default host: "localhost.vag"
+- IP: 10.0.0.100
+- Hosts: localhost.vag & magento.vag
           
           
 Installation
