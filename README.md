@@ -14,7 +14,8 @@ $ vagrant up
 ```  
 To make localhost.vag accessible add following to /etc/hosts  
 ```
-10.0.0.100      localhost.vag
+10.0.0.100  localhost.vag
+10.0.0.100  magento.vag
 ```
 
 Configuration
